@@ -1,5 +1,6 @@
 # 参考
-[TheSolarSystem-3DAnimation](http://git.oschina.net/hndream/TheSolarSystem-3DAnimation/tree/master)
+1. [TheSolarSystem-3DAnimation](http://git.oschina.net/hndream/TheSolarSystem-3DAnimation/tree/master)
+2. [Mouse Picking with Ray Casting](http://antongerdelan.net/opengl/raycasting.html)
 
 # 使用
 ```
