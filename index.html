@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="http://benvanik.github.com/WebGL-Inspector/core/embed.js"></script>
+        <script id="vsShader" type="x-shader/x-vertex">
+            attribute vec3 aVertexPosition;
+            attribute vec3 aVertexNormal;
+            attribute vec3 aVertexColor;
+            attribute vec2 aTextureCoord;
+
+            uniform mat4 uMVMatrix;
+            uniform mat4 uVMatrix;
+            uniform mat4 uPMatrix;
+            uniform mat3 uNMatrix;
+
+            varying vec2 vTextureCoord;
+            varying vec3 vNormal;
+            varying vec3 vColor;
+            varying vec4 vPos;
+
+            void main(void){
+                vTextureCoord = aTextureCoord;
+                vColor = aVertexColor;
+                vNormal = uNMatrix * aVertexNormal;
+                vPos = uMVMatrix * vec4(aVertexPosition, 1.0);
+                gl_Position = uPMatrix * uVMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+            }
+        </script>
+        <script id="fsShader" type="x-shader/x-fragment">
+            precision mediump float;
+
+            varying vec3 vNormal;
+            varying vec2 vTextureCoord;
+            varying vec3 vColor;
+            varying vec4 vPos;
+
+            uniform bool uUseTexture;
+
+            uniform vec3 uLightPos;
+            uniform vec3 uLightColor;
+            uniform vec3 uAmbientColor;
+
+            uniform bool uUseLighting;
+
+            uniform sampler2D uSampler;
+
+            void main(void){
+                vec4 resultColor = vec4(0, 0, 0, 0);
+                if(uUseTexture){
+                    resultColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+                }
+                else{
+                    resultColor = vec4(vColor, 1.0);
+                }
+                if(uUseLighting){
+                    vec3 toLight = uLightPos - vec3(vPos);
+                    vec3 normalizeToLight = normalize(toLight);
+                    float lightRatio = dot(normalizeToLight, vNormal);
+                    resultColor = vec4(vec3(resultColor) * (uAmbientColor + max(uLightColor * lightRatio, vec3(0))), 1.0);
+                    resultColor = min(resultColor, vec4(1.0));
+                }
+                gl_FragColor = resultColor;
+            }
+        </script>
+        <script src="js/global.js"></script>
+        <script src="js/util.js"></script>
+        <script src="js/glMatrix.js"></script>
+        <script src="/bundle.js"></script>
+        <style>
+            body{
+                overflow: hidden;
+            }
+            canvas{
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="solorSys"></canvas>
+    </body>
+</html>
