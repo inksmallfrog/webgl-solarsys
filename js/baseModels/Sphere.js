@@ -2,7 +2,7 @@
 * @Author: inksmallfrog
 * @Date:   2017-05-04 10:56:41
 * @Last Modified by:   inksmallfrog
-* @Last Modified time: 2017-05-05 18:05:41
+* @Last Modified time: 2017-05-11 10:39:23
 */
 
 'use strict';
@@ -11,11 +11,11 @@ import Model from './Model3d.js';
 let sphere = Object.create(Model);
 
 sphere.intersectionCheck = function(O, ray){
-    let center = vec4.fromValues(0, 0, 0, 1);
-    vec3.transformMat4(center, center, this.mvMatrix);
-    let centerToO = vec3.subtract(vec3.create(), O, center);
-    let b = vec3.dot(ray, centerToO);
-    let c = vec3.squaredDistance(O, center) - this.radius * this.radius;
+    let center = glMatrix.vec4.fromValues(0, 0, 0, 1);
+    glMatrix.vec3.transformMat4(center, center, this.mvMatrix);
+    let centerToO = glMatrix.vec3.subtract(glMatrix.vec3.create(), O, center);
+    let b = glMatrix.vec3.dot(ray, centerToO);
+    let c = glMatrix.vec3.squaredDistance(O, center) - this.radius * this.radius;
     let dirta = b * b - c;
     if(dirta < 0){
         return -1;

@@ -2,20 +2,20 @@
 * @Author: inksmallfrog
 * @Date:   2017-05-04 13:22:19
 * @Last Modified by:   inksmallfrog
-* @Last Modified time: 2017-05-05 15:02:55
+* @Last Modified time: 2017-05-11 10:47:20
 */
 
 'use strict';
 import Planet from './Planet';
 let saturn = Object.create(Planet);
 
-saturn.name = 'saturn';
-saturn.textureSrc = '../../images/solar/saturn.jpg';
+saturn.name = '土星';
+saturn.textureSrc = require('../../images/solar/saturn.jpg');
 
 saturn.selfR = 0;
 saturn.obitalR = Math.floor(Math.random() * 360);
 
-saturn.mvMatrix = mat4.create();
+saturn.mvMatrix = glMatrix.mat4.create();
 
 saturn.dist = 6 * baseDist;
 saturn.radius = 4 * baseRadius;

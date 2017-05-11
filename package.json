@@ -4,6 +4,8 @@
   "description": "[TheSolarSystem-3DAnimation](http://git.oschina.net/hndream/TheSolarSystem-3DAnimation/tree/master)",
   "main": "index.js",
   "scripts": {
+    "dev": "webpack-dev-server --hot",
+    "build": "webpack --config webpack.product.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,6 +14,11 @@
     "babel": "^6.23.0",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.4.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-runtime": "^6.23.0",
+    "file-loader": "^0.11.1",
+    "url-loader": "^0.5.8",
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.5"
   }

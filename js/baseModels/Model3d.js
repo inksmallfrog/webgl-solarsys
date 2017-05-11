@@ -2,11 +2,10 @@
 * @Author: inksmallfrog
 * @Date:   2017-05-04 10:48:52
 * @Last Modified by:   inksmallfrog
-* @Last Modified time: 2017-05-05 18:00:10
+* @Last Modified time: 2017-05-11 10:37:59
 */
 
 'use strict';
-
 export default {
     vertexBuffer: null,
     indicesBuffer: null,
@@ -14,7 +13,7 @@ export default {
     textureCoordBuffer: null,
     texture:null,
     renderable: false,
-    mvMatrix: mat4.create(),
+    mvMatrix: glMatrix.mat4.create(),
     initBuffers(){
         this.vertexBuffer = gl.createBuffer();
         this.indicesBuffer = gl.createBuffer();
@@ -104,10 +103,10 @@ export default {
             gl.uniform1i(shaderProgram.samplerUniform, 0);
 
             gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, this.mvMatrix);
-            let normalMatrix = mat3.create();
-            mat3.fromMat4(normalMatrix, this.mvMatrix);
-            mat3.invert(normalMatrix);
-            mat3.transpose(normalMatrix);
+            let normalMatrix = glMatrix.mat3.create();
+            glMatrix.mat3.fromMat4(normalMatrix, this.mvMatrix);
+            glMatrix.mat3.invert(normalMatrix, normalMatrix);
+            glMatrix.mat3.transpose(normalMatrix, normalMatrix);
             gl.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);
 
             gl.uniform3f(shaderProgram.lightPosUniform, 0, 0, 0);

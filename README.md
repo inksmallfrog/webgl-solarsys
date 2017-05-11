@@ -4,5 +4,13 @@
 
 # 使用
 ```
-webpack-dev-server --hot
+npm install
+```
+dev
+```
+npm run dev
+```
+build
+```
+npm run build
 ```

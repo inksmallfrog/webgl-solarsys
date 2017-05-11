@@ -2,20 +2,20 @@
 * @Author: inksmallfrog
 * @Date:   2017-05-04 13:22:19
 * @Last Modified by:   inksmallfrog
-* @Last Modified time: 2017-05-05 15:01:23
+* @Last Modified time: 2017-05-11 10:47:36
 */
 
 'use strict';
 import Planet from './Planet';
 let venus = Object.create(Planet);
 
-venus.name = 'venus';
-venus.textureSrc = '../../images/solar/venus.jpg';
+venus.name = '金星';
+venus.textureSrc = require('../../images/solar/venus.jpg');
 
 venus.selfR = 0;
 venus.obitalR = Math.floor(Math.random() * 360);
 
-venus.mvMatrix = mat4.create();
+venus.mvMatrix = glMatrix.mat4.create();
 
 venus.dist = 1.5 * baseDist;
 venus.radius = 2.5 * baseRadius;

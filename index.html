@@ -2,7 +2,6 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <script src="http://benvanik.github.com/WebGL-Inspector/core/embed.js"></script>
         <script id="vsShader" type="x-shader/x-vertex">
             attribute vec3 aVertexPosition;
             attribute vec3 aVertexNormal;
@@ -63,9 +62,13 @@
                 gl_FragColor = resultColor;
             }
         </script>
-        <script src="js/global.js"></script>
-        <script src="js/util.js"></script>
-        <script src="js/glMatrix.js"></script>
+        <script type="text/javascript">
+            //global config
+            let gl=null;
+            const baseRadius = 0.12,
+                  baseSelfRSpeed = 30,
+                  baseDist = 4;
+        </script>
         <script src="/bundle.js"></script>
         <style>
             body{

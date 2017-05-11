@@ -2,11 +2,13 @@
 * @Author: inksmallfrog
 * @Date:   2017-05-04 10:08:13
 * @Last Modified by:   inksmallfrog
-* @Last Modified time: 2017-05-05 17:55:39
+* @Last Modified time: 2017-05-11 11:02:30
 */
 
 'use strict';
-import Line from './baseModels/Line'
+import Line from './baseModels/Line';
+import { mat4 } from './glMatrix-min';
+
 /*
  * WebGL实例构造函数
  * @param canvasId canvas组件id
@@ -26,55 +28,55 @@ export default function WebGLInstance(canvasId, vshaderId, fshaderId){
     this.lastTime = 0;
     this.init = function(){
         const canvas = document.getElementById(canvasId),
-              vshaderSrc = getNodeText(document.getElementById(vshaderId)),
-              fshaderSrc = getNodeText(document.getElementById(fshaderId));
+              vshaderSrc = util.getNodeText(document.getElementById(vshaderId)),
+              fshaderSrc = util.getNodeText(document.getElementById(fshaderId));
         this.initGL(canvas);
         this.initShaders(vshaderSrc, fshaderSrc);
     }
     this.bindEvent = function(){
         document.body.addEventListener('keydown', (e)=>{
             let degree = 0;
-            let targetVec = vec3.create();
-            vec3.subtract(targetVec, this.camera.lookAt, this.camera.pos);
-            vec3.normalize(targetVec, targetVec);
+            let targetVec = glMatrix.vec3.create();
+            glMatrix.vec3.subtract(targetVec, this.camera.lookAt, this.camera.pos);
+            glMatrix.vec3.normalize(targetVec, targetVec);
             switch(e.keyCode){
                 case 87:
-                    vec3.add(this.camera.pos, this.camera.pos, targetVec);
+                    glMatrix.vec3.add(this.camera.pos, this.camera.pos, targetVec);
                     break;
                 case 83:
-                    vec3.subtract(this.camera.pos, this.camera.pos, targetVec);
+                    glMatrix.vec3.subtract(this.camera.pos, this.camera.pos, targetVec);
                     break;
                 case 38:
                     degree = 3;
-                    vec3.rotateX(this.camera.pos, this.camera.pos, [1, 0, 0], degToRad(degree));
+                    glMatrix.vec3.rotateX(this.camera.pos, this.camera.pos, [1, 0, 0], util.degToRad(degree));
                     break;
                 case 40:
                     degree = -3;
-                    vec3.rotateX(this.camera.pos, this.camera.pos, [1, 0, 0], degToRad(degree));
+                    glMatrix.vec3.rotateX(this.camera.pos, this.camera.pos, [1, 0, 0], util.degToRad(degree));
                     break;
                 case 37:
                 case 65:
                     degree = -3;
-                    vec3.rotateY(this.camera.pos, this.camera.pos, [0, 1, 0], degToRad(degree));
+                    glMatrix.vec3.rotateY(this.camera.pos, this.camera.pos, [0, 1, 0], util.degToRad(degree));
                     break;
                 case 39:
                 case 68:
                     degree = 3;
-                    vec3.rotateY(this.camera.pos, this.camera.pos, [0, 1, 0], degToRad(degree));
+                    glMatrix.vec3.rotateY(this.camera.pos, this.camera.pos, [0, 1, 0], util.degToRad(degree));
                     break;
                 default:
                     break;
             }
         });
         window.addEventListener('wheel', (e)=>{
-            let targetVec = vec3.create();
-            vec3.subtract(targetVec, this.camera.lookAt, this.camera.pos);
-            vec3.normalize(targetVec, targetVec);
+            let targetVec = glMatrix.vec3.create();
+            glMatrix.vec3.subtract(targetVec, this.camera.lookAt, this.camera.pos);
+            glMatrix.vec3.normalize(targetVec, targetVec);
             if(e.deltaY > 0){
-                vec3.subtract(this.camera.pos, this.camera.pos, targetVec);
+                glMatrix.vec3.subtract(this.camera.pos, this.camera.pos, targetVec);
             }
             else if(e.deltaY < 0){
-                vec3.add(this.camera.pos, this.camera.pos, targetVec);
+                glMatrix.vec3.add(this.camera.pos, this.camera.pos, targetVec);
             }
         })
         window.addEventListener('mousedown', (e)=>{
@@ -83,11 +85,11 @@ export default function WebGLInstance(canvasId, vshaderId, fshaderId){
                 stageY = e.pageY - boundingBox.top,
                 glX = (stageX * 2 / gl.viewportWidth - 1),
                 glY = (1 - stageY * 2 / gl.viewportHeight);
-            let ray = vec3.fromValues(glX, glY, -1);
-            vec3.transformMat4(ray, ray, mat4.invert(mat4.create(), this.pMatrix));
-            vec3.transformMat4(ray, ray, mat4.invert(mat4.create(), this.vMatrix));
-            vec3.subtract(ray, ray, this.camera.pos);
-            vec3.normalize(ray, ray);
+            let ray = glMatrix.vec3.fromValues(glX, glY, -1);
+            glMatrix.vec3.transformMat4(ray, ray, mat4.invert(mat4.create(), this.pMatrix));
+            glMatrix.vec3.transformMat4(ray, ray, mat4.invert(mat4.create(), this.vMatrix));
+            glMatrix.vec3.subtract(ray, ray, this.camera.pos);
+            glMatrix.vec3.normalize(ray, ray);
             this.checkModelSelected(ray);
         });
         window.addEventListener('mousemove', (e)=>{
@@ -100,7 +102,7 @@ export default function WebGLInstance(canvasId, vshaderId, fshaderId){
     this.checkModelSelected = function(ray){
         let line = Object.create(Line);
         line.p0 = this.camera.pos;
-        line.p1 = vec3.add(vec3.create(), this.camera.pos, vec3.scale(vec3.create(), ray, 1000));
+        line.p1 = glMatrix.vec3.add(glMatrix.vec3.create(), this.camera.pos, glMatrix.vec3.scale(glMatrix.vec3.create(), ray, 1000));
         this.addModel(line);
         let nearestModel = null;
         let nearestPos = 10000;
@@ -121,7 +123,6 @@ export default function WebGLInstance(canvasId, vshaderId, fshaderId){
         shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, 'aVertexPosition');
         gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
         shaderProgram.vertexNormalAttribute = gl.getAttribLocation(shaderProgram, 'aVertexNormal');
-        console.log(shaderProgram.vertexNormalAttribute);
         shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, 'aVertexColor');
         shaderProgram.textureCoordAttribute = gl.getAttribLocation(shaderProgram, 'aTextureCoord');
 

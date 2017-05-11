@@ -2,11 +2,10 @@
 * @Author: inksmallfrog
 * @Date:   2017-05-04 10:06:18
 * @Last Modified by:   inksmallfrog
-* @Last Modified time: 2017-05-05 13:48:51
+* @Last Modified time: 2017-05-11 10:29:00
 */
 
 'use strict';
-let gl=null;
 import WebGLInstance from './WebglInterface';
 import sun from './models/Sun';
 import mercury from './models/Mercury';

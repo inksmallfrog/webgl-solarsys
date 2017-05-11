@@ -2,7 +2,7 @@
 * @Author: inksmallfrog
 * @Date:   2017-05-05 12:41:12
 * @Last Modified by:   inksmallfrog
-* @Last Modified time: 2017-05-05 17:17:37
+* @Last Modified time: 2017-05-11 10:29:11
 */
 
 'use strict';
@@ -13,7 +13,7 @@ export default {
     textureCoordBuffer: null,
     texture:null,
     renderable: false,
-    mvMatrix: mat4.create(),
+    mvMatrix: glMatrix.mat4.create(),
     initBuffers(){
         this.vertexBuffer = gl.createBuffer();
         this.colorBuffer = gl.createBuffer();

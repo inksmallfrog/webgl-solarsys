@@ -2,20 +2,20 @@
 * @Author: inksmallfrog
 * @Date:   2017-05-04 13:22:19
 * @Last Modified by:   inksmallfrog
-* @Last Modified time: 2017-05-05 14:55:34
+* @Last Modified time: 2017-05-11 10:47:06
 */
 
 'use strict';
 import Planet from './Planet';
 let mercury = Object.create(Planet);
 
-mercury.name = 'mercury';
-mercury.textureSrc = '../../images/solar/mercury.jpg';
+mercury.name = '水星';
+mercury.textureSrc = require('../../images/solar/mercury.jpg');
 
 mercury.selfR = 0;
 mercury.obitalR = Math.floor(Math.random() * 360);
 
-mercury.mvMatrix = mat4.create();
+mercury.mvMatrix = glMatrix.mat4.create();
 
 mercury.dist = baseDist;
 mercury.radius = baseRadius;

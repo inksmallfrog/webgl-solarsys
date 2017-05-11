@@ -2,7 +2,7 @@
 * @Author: inksmallfrog
 * @Date:   2017-05-04 10:17:29
 * @Last Modified by:   inksmallfrog
-* @Last Modified time: 2017-05-04 13:35:01
+* @Last Modified time: 2017-05-11 10:33:33
 */
 
 'use strict';
@@ -11,7 +11,7 @@
  * @param node<DOMElement> 目标节点
  * @return <String> 节点下的所有文本内容
  */
-function getNodeText(node){
+export function getNodeText(node){
     let text = "";
     if(node) {
         let child = node.firstChild;
@@ -24,6 +24,6 @@ function getNodeText(node){
     }
     return text;
 }
-function degToRad(degrees){
+export function degToRad(degrees){
     return degrees * Math.PI / 180;
 }
